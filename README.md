@@ -16,17 +16,6 @@ the bus is reserved purely for moving values between registers and storing ALU r
 
 ---
 
-## Operations Verified
-
-| Test Phase | Action Taken | Verified Hardware Behavior |
-| :--- | :--- | :--- |
-| **Reset** | `reset` pulsed high for 1 clock cycle. | `ACC` and `B` registers both cleanly initialize to `0` (ensuring no `X` propagation). |
-| **Load via Bus** | Testbench drives the bus line directly; sets `load_acc = 1`. | `ACC` successfully captures the external value from the bus. |
-| **Register-to-Register** | `ACC` drives the bus line (`drive_acc = 1`); sets `load_b = 1`. | `B` register successfully captures `ACC`'s value over the shared data highway. |
-| **ALU Compute** | `ACC` and `B` feed the ALU via direct structural wires. | Combinational execution path: ALU output reflects ($ACC + B$) at all times without waiting for a clock cycle. |
-| **Write-back** | Sets `alu_drive = 1` and `load_acc = 1`. | The ALU's computation result is routed back onto the shared bus and safely captured back into `ACC`. |
-| **Idle** | All driver control signals (`drive_acc`, `drive_b`, `alu_drive`, `bus_drive`) released. | Shared bus correctly floats to a clean high-impedance state (`Z`), confirming proper tri-state isolation layout. |
-
 
 ## Schematic :
 ### Full-System-Schematic :-
@@ -38,3 +27,13 @@ the bus is reserved purely for moving values between registers and storing ALU r
 
 ![Simulations-Waveform](assets/simulation.png)
 
+## Operations Verified
+
+| Test Phase | Action Taken | Verified Hardware Behavior |
+| :--- | :--- | :--- |
+| **Reset** | `reset` pulsed high for 1 clock cycle. | `ACC` and `B` registers both cleanly initialize to `0` (ensuring no `X` propagation). |
+| **Load via Bus** | Testbench drives the bus line directly; sets `load_acc = 1`. | `ACC` successfully captures the external value from the bus. |
+| **Register-to-Register** | `ACC` drives the bus line (`drive_acc = 1`); sets `load_b = 1`. | `B` register successfully captures `ACC`'s value over the shared data highway. |
+| **ALU Compute** | `ACC` and `B` feed the ALU via direct structural wires. | Combinational execution path: ALU output reflects ($ACC + B$) at all times without waiting for a clock cycle. |
+| **Write-back** | Sets `alu_drive = 1` and `load_acc = 1`. | The ALU's computation result is routed back onto the shared bus and safely captured back into `ACC`. |
+| **Idle** | All driver control signals (`drive_acc`, `drive_b`, `alu_drive`, `bus_drive`) released. | Shared bus correctly floats to a clean high-impedance state (`Z`), confirming proper tri-state isolation layout. |
