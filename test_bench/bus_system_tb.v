@@ -31,7 +31,7 @@ reg bus_drive;
             #1;
             reset = 1'b1;
             bus_drive = 1'b0;
-            drive_acc = 1'b0;
+            drive_acc = 1'b0;   //resetting everything so that it gets to a known value i.e. 0
             load_acc = 1'b0;   
             drive_b = 1'b0;
             load_b = 1'b0;
@@ -46,18 +46,21 @@ reg bus_drive;
             reset = 1'b0;
             bus_drive = 1'b1;
             drive_acc = 1'b0;
-            load_acc = 1'b1;    //register B is undefined rn
+            load_acc = 1'b1;    //register B is at 0 value rn
             drive_b = 1'b0;
             load_b = 1'b0;
             alu_drive = 1'b0;
             op = 2'b00;
 
+            #1;
             @(posedge clk);
 
             bus_drive = 1'b0;
             drive_acc = 1'b1;   // register ACC loads value to register B
             load_acc = 1'b0;    // now both ACC and B have same value
             load_b = 1'b1;
+
+            #1;
 
             @(posedge clk);
 
@@ -68,13 +71,7 @@ reg bus_drive;
             drive_b = 1'b0;
             load_b = 1'b0;
 
-            repeat(2)@(posedge clk);
-
-            bus_drive = 1'b0;
-            drive_acc = 1'b0;   // ACC is still holding onto last value
-            load_acc = 1'b0;    // B is also still holding onto last value
-            drive_b = 1'b0;     //hence ALU completes its task
-            load_b = 1'b0;
+            #1; 
 
             @(posedge clk);
 
@@ -85,12 +82,14 @@ reg bus_drive;
             drive_b = 1'b0;
             load_b = 1'b0;
 
+            #1;
+
             @(posedge clk);
 
-            load_acc = 1'b0;
-            alu_drive= 1'b0;
+            load_acc = 1'b0; // now bus is idle
+            alu_drive= 1'b0; // nothing is driving it
 
-             @(posedge clk);
+            @(posedge clk);
 
         end
 endmodule
