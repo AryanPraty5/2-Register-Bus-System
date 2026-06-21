@@ -30,11 +30,11 @@ the bus is reserved purely for moving values between registers and storing ALU r
 
 ## Schematic :
 
-![Full-System-Schematic](assets/full_system_schematic.png);
+![Full-System-Schematic](assets/full_system_schematic.png)
 
-![Register-Schematic](assets/register_schematic.png);
+![Register-Schematic](assets/register_schematic.png)
 
 ## Simualtion Waveform :
 
-![Simulations-Waveform](assets/simulation.png);
+![Simulations-Waveform](assets/simulation.png)
 
